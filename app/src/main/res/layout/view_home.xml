@@ -22,7 +22,6 @@
 
             <Button
                 android:id="@+id/time"
-                android:text="23:00"
                 android:textSize="38sp"
                 android:background="@android:color/transparent"
                 android:layout_width="0dp"
@@ -31,11 +30,33 @@
                 android:gravity="start|center_vertical"
                 android:textColor="@color/text_theme" />
 
-            <ImageView
+            <FrameLayout
+                android:id="@+id/reset_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/restart_alt" />
+            </FrameLayout>
+
+            <FrameLayout
                 android:id="@+id/settings_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/settings" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/settings" />
+            </FrameLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -72,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:dividerHeight="12dp"
+        android:dividerHeight="4dp"
         android:divider="@null" />
 
 </LinearLayout>
