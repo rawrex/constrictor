@@ -33,7 +33,7 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/about_button"
+            android:id="@+id/reset_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -44,7 +44,26 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:text="About Mako Launcher"
+                android:text="Refresh Launcher"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_light" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/change_apps_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_secondary_rounded"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:text="Edit Apps"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,6 +83,25 @@
 
             <TextView
                 android:text="Change OS Wallpaper"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_light" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/about_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_secondary_rounded"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:text="About Mako Launcher"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

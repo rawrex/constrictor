@@ -5,8 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.FrameLayout
 import android.widget.Toast
 
 class SettingsActivity : Activity() {
@@ -51,7 +49,22 @@ class SettingsActivity : Activity() {
             )
         }
 
-//        setupThemeBoxes()
+        // Reset App
+        findViewById<View>(R.id.reset_button).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java).apply {
+                addFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK or
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK
+                )
+            }
+            startActivity(intent)
+        }
+
+        // Edit Apps
+        findViewById<View>(R.id.change_apps_button).setOnClickListener {
+            val intent = Intent(android.provider.Settings.ACTION_APPLICATION_SETTINGS)
+            startActivity(intent)
+        }
     }
 
     // Helper to bind a click listener

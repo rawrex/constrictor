@@ -10,7 +10,6 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:paddingBottom="32dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -18,31 +17,18 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
             android:gravity="center_vertical">
 
             <Button
                 android:id="@+id/time"
                 android:textSize="38sp"
                 android:background="@android:color/transparent"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/text_theme" />
-
-            <FrameLayout
-                android:id="@+id/reset_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="4dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/restart_alt" />
-            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/settings_button"
@@ -53,8 +39,8 @@
                 android:padding="4dp">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:src="@drawable/settings" />
             </FrameLayout>
         </LinearLayout>
@@ -62,8 +48,16 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:paddingBottom="4dp"
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="12sp"
+                android:layout_height="12dp"
+                android:layout_marginEnd="4sp"
+                android:src="@drawable/calendar_today" />
+
 
             <TextView
                 android:id="@+id/date"
@@ -71,13 +65,20 @@
                 android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:gravity="center_vertical">
 
             <ImageView
                 android:layout_width="12sp"
                 android:layout_height="12dp"
-                android:layout_marginStart="16sp"
-                android:layout_marginEnd="0sp"
-                android:src="@drawable/battery_full" />
+                android:layout_marginEnd="4sp"
+                android:src="@drawable/battery_full_alt" />
 
             <TextView
                 android:id="@+id/battery"

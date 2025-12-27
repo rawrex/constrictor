@@ -63,7 +63,7 @@
             <com.rama.mako.ListItemActivity
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:icon="@drawable/wifi"
+                app:icon="@drawable/signal_wifi_off"
                 app:text="@string/icon_offline_desc" />
 
             <com.rama.mako.ListItemActivity

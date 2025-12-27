@@ -97,14 +97,7 @@ class MainActivity : Activity() {
 
             Toast.makeText(this, "No clock app found", Toast.LENGTH_SHORT).show()
         }
-
-        // Reset
-        findViewById<View>(R.id.reset_button).setOnClickListener {
-            val intent = intent
-            finish()
-            startActivity(intent)
-        }
-
+        
         // Settings
         findViewById<View>(R.id.settings_button).setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))

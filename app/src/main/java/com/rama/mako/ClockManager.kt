@@ -3,22 +3,42 @@ package com.rama.mako
 import android.os.Handler
 import android.os.Looper
 import android.widget.TextView
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 class ClockManager(
     private val timeTextView: TextView,
     private val dateTextView: TextView
 ) {
     private val handler = Handler(Looper.getMainLooper())
-    private val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-    private val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+
+    private val timeFormatter =
+        DateTimeFormatter.ofPattern("HH:mm")
+
+    private val dateFormatter =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     private val runnable = object : Runnable {
         override fun run() {
-            val now = Date()
-            timeTextView.text = timeFormat.format(now)
-            dateTextView.text = dateFormat.format(now)
+            val now = LocalDateTime.now()
+            val locale = Locale.getDefault()
+
+            // Time
+            timeTextView.text = now.format(timeFormatter)
+
+            // Date parts
+            val weekday = now.dayOfWeek
+                .getDisplayName(TextStyle.FULL, locale)
+
+            val dayOfYear = now.dayOfYear
+            val totalDays = now.toLocalDate().lengthOfYear()
+
+            dateTextView.text =
+                "$weekday :: ${now.format(dateFormatter)} :: $dayOfYear/$totalDays"
+                    .uppercase(locale)
+
             handler.postDelayed(this, 1000)
         }
     }
@@ -26,4 +46,3 @@ class ClockManager(
     fun start() = handler.post(runnable)
     fun stop() = handler.removeCallbacks(runnable)
 }
-
