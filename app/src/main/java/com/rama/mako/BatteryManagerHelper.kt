@@ -52,19 +52,13 @@ class BatteryManagerHelper(
                 status == BatteryManager.BATTERY_STATUS_FULL
             ) {
                 when (chargePlug) {
-                    BatteryManager.BATTERY_PLUGGED_USB -> "USB"
-                    BatteryManager.BATTERY_PLUGGED_AC -> "AC"
-                    BatteryManager.BATTERY_PLUGGED_WIRELESS -> "Wireless"
+                    BatteryManager.BATTERY_PLUGGED_USB -> "USB Charging"
+                    BatteryManager.BATTERY_PLUGGED_AC -> "AC Charging"
+                    BatteryManager.BATTERY_PLUGGED_WIRELESS -> "Wireless Charging"
                     else -> ""
                 }
             } else {
                 ""
-            }
-
-            val statusTextCombined = when {
-                statusText == "Charging" && chargeType.isNotEmpty() -> chargeType
-                statusText == "Full" -> "Full"
-                else -> statusText
             }
 
             // Current in mA (may be negative if discharging)
@@ -76,24 +70,37 @@ class BatteryManagerHelper(
             val powerW = abs(voltageV * (currentMa / 1000f)) // mA → A
 
             // Charging / discharging speed label
-            val powerLabel = when {
+            val speedLabel = when {
                 status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL -> {
                     when {
-                        powerW < 2 -> "Slow Charge"
-                        powerW < 10 -> "Normal Charge"
-                        else -> "Fast Charge"
+                        powerW < 2 -> "Slow"
+                        powerW < 10 -> "Normal"
+                        else -> "Fast"
                     }
                 }
 
                 status == BatteryManager.BATTERY_STATUS_DISCHARGING -> {
                     when {
-                        powerW < 2 -> "Slow Discharge"
-                        powerW < 10 -> "Normal Discharge"
-                        else -> "Fast Discharge"
+                        powerW < 2 -> "Slow"
+                        powerW < 10 -> "Normal"
+                        else -> "Fast"
                     }
                 }
 
                 else -> ""
+            }
+
+            // Combine status + speed
+            val statusCombined = when {
+                statusText == "Full" -> "Full"
+                speedLabel.isNotEmpty() -> "$statusText ($speedLabel)"
+                else -> statusText
+            }
+
+            // Add charge type if charging
+            val statusFinal = when {
+                statusText == "Charging" && chargeType.isNotEmpty() -> "$chargeType ($speedLabel)"
+                else -> statusCombined
             }
 
             if (level >= 0 && scale > 0) {
@@ -107,8 +114,7 @@ class BatteryManagerHelper(
                     tempDisplay,
                     "${voltageMv} mV",
                     "${currentMa.toInt()} mA",
-                    statusTextCombined,
-                    powerLabel.ifEmpty { null } // avoid empty trace
+                    statusFinal.ifEmpty { null } // avoid empty trace
                 ).filterNotNull()
 
                 val info = infoParts.joinToString(" :: ")
