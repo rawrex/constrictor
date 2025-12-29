@@ -69,21 +69,30 @@ class AppListHelper(
 
                 // Tap on label → launch app
                 label.setOnClickListener {
-                    val launchIntent = Intent().apply {
-                        setClassName(pkg, app.activityInfo.name)
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    }
+                    val launchIntent =
+                        context.packageManager.getLaunchIntentForPackage(pkg)
 
-                    try {
+                    if (launchIntent != null) {
+                        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         context.startActivity(launchIntent)
-                    } catch (e: Exception) {
-                        Toast.makeText(context, "App not found", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // Feedback
+                        Toast.makeText(context, "Unable to launch app", Toast.LENGTH_SHORT).show()
+
+                        // Remove from favorites ONLY
                         prefs.edit().remove(pkg).apply()
-                        apps.remove(app)
+
+                        // Reset UI state
                         openActionsFor = null
+
+                        // Re-sort list (favorite state changed)
+                        sortApps()
+
+                        // Refresh list
                         notifyDataSetChanged()
                     }
                 }
+
 
                 // Long press on label → open row actions
                 label.setOnLongClickListener {

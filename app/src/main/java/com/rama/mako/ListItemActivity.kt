@@ -8,8 +8,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 
-import androidx.annotation.DrawableRes
-
 class ListItemActivity @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -38,14 +36,5 @@ class ListItemActivity @JvmOverloads constructor(
 
             typedArray.recycle()
         }
-    }
-
-    // Optional helper functions
-    fun setText(text: String) {
-        iconText.text = text
-    }
-
-    fun setIcon(@DrawableRes resId: Int) {
-        iconImage.setImageResource(resId)
     }
 }
