@@ -14,12 +14,28 @@ android {
         versionCode = 7
         versionName = "20251229_3"
 
-        // Required for instrumentation tests
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions += listOf("mode")
+
+    productFlavors {
+        create("dev") {
+            dimension = "mode"
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+        }
+        create("prod") {
+            dimension = "mode"
+            // No suffix for production
+        }
+    }
+
     buildTypes {
-        release {
+        getByName("debug") {
+            isMinifyEnabled = false
+        }
+        getByName("release") {
             isMinifyEnabled = false
         }
     }
@@ -42,7 +58,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
 
     // Instrumentation tests (device / emulator)
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.ext:junit:1.3.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
 }
-
