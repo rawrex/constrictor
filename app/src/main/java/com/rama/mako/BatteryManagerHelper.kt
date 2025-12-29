@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 class BatteryManagerHelper(
     private val context: Context,
@@ -32,10 +33,6 @@ class BatteryManagerHelper(
                 else -> "Critical"
             }
 
-            // Voltage in millivolts → volts
-            val voltageMv = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1)
-            val voltageV = voltageMv / 1000f
-
             // Charging status
             val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
             val statusText = when (status) {
@@ -52,9 +49,9 @@ class BatteryManagerHelper(
                 status == BatteryManager.BATTERY_STATUS_FULL
             ) {
                 when (chargePlug) {
-                    BatteryManager.BATTERY_PLUGGED_USB -> "USB Charging"
-                    BatteryManager.BATTERY_PLUGGED_AC -> "AC Charging"
-                    BatteryManager.BATTERY_PLUGGED_WIRELESS -> "Wireless Charging"
+                    BatteryManager.BATTERY_PLUGGED_USB -> "USB"
+                    BatteryManager.BATTERY_PLUGGED_AC -> "AC"
+                    BatteryManager.BATTERY_PLUGGED_WIRELESS -> "Wireless"
                     else -> ""
                 }
             } else {
@@ -66,41 +63,21 @@ class BatteryManagerHelper(
             val currentMa =
                 bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) / 1000f // µA → mA
 
-            // Compute instantaneous power (Watts)
-            val powerW = abs(voltageV * (currentMa / 1000f)) // mA → A
+            // Compute instantaneous power in Watts
+            val voltageMv = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1)
+            val voltageV = voltageMv / 1000f
+            val powerW = abs(voltageV * (currentMa / 1000f)) // Watts
 
-            // Charging / discharging speed label
-            val speedLabel = when {
-                status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL -> {
-                    when {
-                        powerW < 2 -> "Slow"
-                        powerW < 10 -> "Normal"
-                        else -> "Fast"
-                    }
-                }
+            // Round to integer x value
+            val powerX = powerW.roundToInt()
 
-                status == BatteryManager.BATTERY_STATUS_DISCHARGING -> {
-                    when {
-                        powerW < 2 -> "Slow"
-                        powerW < 10 -> "Normal"
-                        else -> "Fast"
-                    }
-                }
-
-                else -> ""
-            }
-
-            // Combine status + speed
-            val statusCombined = when {
-                statusText == "Full" -> "Full"
-                speedLabel.isNotEmpty() -> "$statusText ($speedLabel)"
-                else -> statusText
-            }
-
-            // Add charge type if charging
+            // Build status + x
             val statusFinal = when {
-                statusText == "Charging" && chargeType.isNotEmpty() -> "$chargeType ($speedLabel)"
-                else -> statusCombined
+                statusText == "Full" -> "Full"
+                statusText == "Charging" && chargeType.isNotEmpty() -> "$statusText ($chargeType) ${powerX}x"
+                statusText == "Charging" -> "$statusText ${powerX}x"
+                statusText == "Discharging" -> "$statusText ${powerX}x"
+                else -> statusText
             }
 
             if (level >= 0 && scale > 0) {
@@ -108,14 +85,12 @@ class BatteryManagerHelper(
                 val tempDisplay =
                     if (tempLabel.isNotEmpty()) "$tempF°F ($tempLabel)" else "$tempF°F"
 
-                // Build info list safely
+                // Build info list
                 val infoParts = listOf(
                     "$levelPct%",
                     tempDisplay,
-                    "${voltageMv} mV",
-                    "${currentMa.toInt()} mA",
-                    statusFinal.ifEmpty { null } // avoid empty trace
-                ).filterNotNull()
+                    statusFinal
+                )
 
                 val info = infoParts.joinToString(" :: ")
                 callback(info)

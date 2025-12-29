@@ -1,4 +1,4 @@
-![Preview](https://raw.githubusercontent.com/jmiguelrivas/mako/refs/heads/master/fastlane/metadata/android/en-US/images/featureGraphic.png) 
+![Preview](https://raw.githubusercontent.com/jmiguelrivas/mako/refs/heads/master/fastlane/metadata/android/en-US/images/featureGraphic.png)
 
 # Mako
 
@@ -18,8 +18,8 @@ distractions to a minimum by emphasizing clarity and intentional interaction.
 
 ## • Screenshots
 
-| Home                                                                                                                            | Settings                                                                                                                            | About                                                                                                                            |
-|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| Home                                                                                                                                         | Settings                                                                                                                                         | About                                                                                                                                         |
+|----------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | ![Home](https://raw.githubusercontent.com/jmiguelrivas/mako/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png) | ![Settings](https://raw.githubusercontent.com/jmiguelrivas/mako/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png) | ![About](https://raw.githubusercontent.com/jmiguelrivas/mako/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png) |
 
 ---
@@ -38,15 +38,15 @@ No network access is required.
 ## • Features
 
 - **Favorites & sorting**: Long press an app to quickly access actions and mark it as favorite.
-  Favorite apps appear at the top
-  of the list.
-- **Battery monitoring**: Monitor battery status and charging performance:
+  Favorite apps appear at the top of the list.
+- **Battery monitoring**: Monitor battery status and performance:
     - **Temperature**: Device temperature labeled as `Warm`, `Hot`, or `Critical` when running
       higher than normal.
-    - **Charging power**: Labeled as `Slow charge`, `Normal charge`, or `Fast charge` depending on
-      the current being drawn.  
-      These indicators help you make informed choices to protect your battery and maintain device
-      performance.
+    - **Charging & discharging speed**: Displayed as relative multipliers (`1x`, `2x`, `3x`):
+        - Higher numbers indicate faster charging.
+        - Lower numbers indicate slower discharging (better battery efficiency).  
+          These indicators help you make informed choices to protect your battery and maintain
+          device performance.
 - **Day of the year**: Track the current day of the year at a glance for productivity or personal
   tracking.
 
