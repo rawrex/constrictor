@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.ArrayAdapter
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
@@ -17,8 +18,7 @@ class AppListHelper(
     private val listView: ListView
 ) {
 
-    private val prefs =
-        context.getSharedPreferences("favorites", Context.MODE_PRIVATE)
+    private val prefs = context.getSharedPreferences("favorites", Context.MODE_PRIVATE)
 
     // Package name of the row currently showing actions
     private var openActionsFor: String? = null
@@ -34,30 +34,25 @@ class AppListHelper(
         fun sortApps() {
             apps.sortWith(
                 compareByDescending<ResolveInfo> {
-                    prefs.getBoolean(it.activityInfo.packageName, false)
-                }.thenBy {
-                    it.loadLabel(pm).toString().lowercase()
+                    prefs.getBoolean(
+                        it.activityInfo.packageName,
+                        false
+                    )
                 }
+                    .thenBy { it.loadLabel(pm).toString().lowercase() }
             )
         }
 
         sortApps()
 
-        val adapter = object : ArrayAdapter<ResolveInfo>(
-            context,
-            R.layout.app_list_item,
-            R.id.open_app_button,
-            apps
-        ) {
-            override fun getView(
-                position: Int,
-                convertView: View?,
-                parent: ViewGroup
-            ): View {
+        val adapter = object :
+            ArrayAdapter<ResolveInfo>(context, R.layout.app_list_item, R.id.open_app_button, apps) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 val app = getItem(position) ?: return view
                 val pkg = app.activityInfo.packageName
 
+                // Views
                 val label = view.findViewById<TextView>(R.id.open_app_button)
                 val favButton = view.findViewById<View>(R.id.favorite_button)
                 val favIcon = view.findViewById<ImageView>(R.id.favorite_icon)
@@ -65,17 +60,17 @@ class AppListHelper(
                 val actions = view.findViewById<View>(R.id.actions_container)
                 val bottomBorder = view.findViewById<View>(R.id.favorite_bottom_border)
 
+                // Label text
                 label.text = app.loadLabel(pm)
 
                 // Restore favorite state
                 favIcon.isSelected = prefs.getBoolean(pkg, false)
 
                 // Show/hide actions
-                actions.visibility =
-                    if (openActionsFor == pkg) View.VISIBLE else View.GONE
+                actions.visibility = if (openActionsFor == pkg) View.VISIBLE else View.GONE
 
-                // Row tap
-                view.setOnClickListener {
+                // Short tap → launch app
+                label.setOnClickListener {
                     if (openActionsFor != null) {
                         // Hide any open actions first
                         openActionsFor = null
@@ -83,7 +78,6 @@ class AppListHelper(
                         return@setOnClickListener
                     }
 
-                    // Launch app
                     val launchIntent = Intent().apply {
                         setClassName(pkg, app.activityInfo.name)
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -92,58 +86,30 @@ class AppListHelper(
                     try {
                         context.startActivity(launchIntent)
                     } catch (e: Exception) {
-                        Toast.makeText(
-                            context,
-                            "App not found",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        // Remove from favorites
+                        Toast.makeText(context, "App not found", Toast.LENGTH_SHORT).show()
                         prefs.edit().remove(pkg).apply()
-
-                        // Remove from list
                         apps.remove(app)
-
-                        // Close any open actions
                         openActionsFor = null
-
                         notifyDataSetChanged()
                     }
-
                 }
 
-                // Check if this is the last favorite app in the list
-                val isFavorite = favIcon.isSelected
-                val isLastFavorite = isFavorite && (
-                        position == apps.size - 1 || !prefs.getBoolean(
-                            getItem(position + 1)!!.activityInfo.packageName,
-                            false
-                        )
-                        )
-
-                // Show bottom border only for the last favorite
-                bottomBorder.visibility = if (isLastFavorite) View.VISIBLE else View.GONE
-
                 // Long press → show actions
-                view.setOnLongClickListener {
+                label.setOnLongClickListener {
                     openActionsFor = pkg
                     notifyDataSetChanged()
                     true
                 }
 
+                // Disable row-level long press
+                view.isLongClickable = false
+
                 // Favorite toggle
                 favButton.setOnClickListener {
                     val newState = !favIcon.isSelected
                     favIcon.isSelected = newState
-
-                    prefs.edit()
-                        .putBoolean(pkg, newState)
-                        .apply()
-
+                    prefs.edit().putBoolean(pkg, newState).apply()
                     sortApps()
-                    notifyDataSetChanged()
-
-                    // close menu after set an item as favorite
                     openActionsFor = null
                     notifyDataSetChanged()
                 }
@@ -154,6 +120,16 @@ class AppListHelper(
                     notifyDataSetChanged()
                 }
 
+                // Bottom border for last favorite
+                val isFavorite = favIcon.isSelected
+                val isLastFavorite = isFavorite && (
+                        position == apps.size - 1 || !prefs.getBoolean(
+                            getItem(position + 1)!!.activityInfo.packageName,
+                            false
+                        )
+                        )
+                bottomBorder.visibility = if (isLastFavorite) View.VISIBLE else View.GONE
+
                 return view
             }
         }
@@ -162,13 +138,8 @@ class AppListHelper(
 
         // Auto-hide actions when scrolling
         listView.setOnScrollListener(object : AbsListView.OnScrollListener {
-            override fun onScrollStateChanged(
-                view: AbsListView?,
-                scrollState: Int
-            ) {
-                if (scrollState != AbsListView.OnScrollListener.SCROLL_STATE_IDLE &&
-                    openActionsFor != null
-                ) {
+            override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
+                if (scrollState != AbsListView.OnScrollListener.SCROLL_STATE_IDLE && openActionsFor != null) {
                     openActionsFor = null
                     adapter.notifyDataSetChanged()
                 }
@@ -179,7 +150,8 @@ class AppListHelper(
                 firstVisibleItem: Int,
                 visibleItemCount: Int,
                 totalItemCount: Int
-            ) = Unit
+            ) {
+            }
         })
     }
 }

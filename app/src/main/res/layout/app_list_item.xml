@@ -1,6 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@color/bg_color"
+    android:clickable="false"
+    android:focusable="false"
+    android:foreground="@null"
     android:layout_height="wrap_content">
 
     <!-- Divider, hidden by default -->
@@ -20,16 +24,22 @@
         android:gravity="center_vertical">
 
         <!-- Open app button -->
-        <TextView
-            android:id="@+id/open_app_button"
+        <FrameLayout
+            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:textColor="@color/foreground_color"
-            android:textSize="16sp"
-            android:gravity="start|center_vertical" />
+            android:gravity="start|center_vertical">
+
+            <TextView
+                android:id="@+id/open_app_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/foreground_color"
+                android:textSize="16sp" />
+
+        </FrameLayout>
 
         <!-- Actions container -->
         <FrameLayout
@@ -44,7 +54,6 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:gravity="center_vertical">
 
                 <FrameLayout

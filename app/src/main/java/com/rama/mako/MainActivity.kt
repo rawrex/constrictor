@@ -3,10 +3,12 @@ package com.rama.mako
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import kotlin.math.abs
 
 class MainActivity : Activity() {
 
@@ -25,10 +27,12 @@ class MainActivity : Activity() {
     private fun dp(value: Int): Int =
         (value * resources.displayMetrics.density).toInt()
 
+    private var startX = 0f
+    private var startY = 0f
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Allow layout behind system bars
         @Suppress("DEPRECATION")
         window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
@@ -36,10 +40,8 @@ class MainActivity : Activity() {
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 
         val prefs = getSharedPreferences("settings", MODE_PRIVATE)
-
         setContentView(R.layout.view_home)
 
-        // Root safe-area padding
         val root = findViewById<View>(R.id.root)
         root.setOnApplyWindowInsetsListener { view, insets ->
             view.setPadding(
@@ -51,35 +53,47 @@ class MainActivity : Activity() {
             insets
         }
 
-        // Views
         timeText = findViewById(R.id.time)
         dateText = findViewById(R.id.date)
         batteryText = findViewById(R.id.battery)
         listView = findViewById(R.id.appList)
 
-        // Clock
-        clockManager = ClockManager(
-            timeTextView = timeText,
-            dateTextView = dateText,
-            prefs = prefs
-        )
+        clockManager = ClockManager(timeText, dateText, prefs)
         clockManager.start()
 
-        // Battery
         batteryHelper = BatteryManagerHelper(this) { status ->
             batteryText.text = status
         }
         batteryHelper.register()
 
-        // App list
         AppListHelper(this, listView).setup()
 
-        // Clock click → open system clock
         timeText.setOnClickListener { openSystemClock() }
 
-        // Settings
-        findViewById<View>(R.id.settings_button).setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
+        // Swipe left → settings (ignore mostly vertical scrolls)
+        root.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    startX = event.x
+                    startY = event.y
+                    true
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    val deltaX = startX - event.x
+                    val deltaY = startY - event.y
+
+                    // Only trigger if mostly horizontal and enough distance
+                    if (abs(deltaX) > dp(120) && abs(deltaX) > abs(deltaY)) {
+                        startActivity(Intent(this, SettingsActivity::class.java))
+                        true
+                    } else {
+                        false
+                    }
+                }
+
+                else -> false
+            }
         }
     }
 
@@ -91,11 +105,8 @@ class MainActivity : Activity() {
     override fun onDestroy() {
         super.onDestroy()
         batteryHelper.unregister()
+        clockManager.stop()
     }
-
-    // -------------------------
-    // Helpers
-    // -------------------------
 
     private fun syncSettings() {
         val showClock = settingsPrefs.getBoolean("show_clock", true)
@@ -108,10 +119,8 @@ class MainActivity : Activity() {
             if (showBattery) View.VISIBLE else View.GONE
     }
 
-
     private fun openSystemClock() {
         val pm = packageManager
-
         val intents = listOf(
             Intent(Intent.ACTION_MAIN).addCategory("android.intent.category.APP_CLOCK"),
             Intent("android.intent.action.SHOW_ALARMS"),
