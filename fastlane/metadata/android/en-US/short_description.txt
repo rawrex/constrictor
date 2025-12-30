@@ -1,1 +1,1 @@
-Minimal, privacy-first Android launcher designed for focus, speed, and simplicity.
+Privacy-first Android launcher designed for focus, speed, and simplicity.
