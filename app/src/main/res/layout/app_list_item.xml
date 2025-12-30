@@ -70,8 +70,8 @@
 
                     <ImageView
                         android:id="@+id/favorite_icon"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
+                        android:layout_width="32sp"
+                        android:layout_height="32sp"
                         android:src="@drawable/star_toggle" />
                 </FrameLayout>
 
@@ -84,8 +84,8 @@
                     android:focusable="true">
 
                     <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:src="@drawable/close" />
                 </FrameLayout>
             </LinearLayout>
@@ -93,15 +93,30 @@
     </LinearLayout>
 
     <!-- Optional bottom border for last favorite -->
-    <TextView
+    <LinearLayout
         android:id="@+id/favorite_bottom_border"
-        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/star_color"
-        android:text="* * * * * * * * * * * * * * * * * * *"
-        android:textSize="16sp"
+        android:gravity="start|center_vertical"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:gravity="start|center_vertical"
-        android:visibility="gone" />
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="32sp"
+            android:layout_height="32sp"
+            android:src="@drawable/star_fill" />
+
+        <ImageView
+            android:layout_width="32sp"
+            android:layout_height="32sp"
+            android:src="@drawable/star_fill" />
+
+        <ImageView
+            android:layout_width="32sp"
+            android:layout_height="32sp"
+            android:src="@drawable/star_fill" />
+
+    </LinearLayout>
 </LinearLayout>
