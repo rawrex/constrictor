@@ -11,8 +11,8 @@ android {
         applicationId = "com.rama.mako"
         minSdk = 21
         targetSdk = 36
-        versionCode = 14
-        versionName = "26.01.0821"
+        versionCode = 15
+        versionName = "26.01.0822"
 
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
     }
