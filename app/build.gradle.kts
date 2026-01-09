@@ -1,17 +1,6 @@
-import java.util.Properties
-import java.io.FileInputStream
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-}
-
-// Load keystore properties
-val keystorePropertiesFile = rootProject.file("keystore.properties")
-val keystoreProperties = Properties()
-
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
 android {
@@ -28,17 +17,6 @@ android {
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
     }
 
-    signingConfigs {
-        create("release") {
-            if (keystorePropertiesFile.exists()) {
-                storeFile = file(keystoreProperties["RELEASE_STORE_FILE"] as String)
-                storePassword = keystoreProperties["RELEASE_STORE_PASSWORD"] as String
-                keyAlias = keystoreProperties["RELEASE_KEY_ALIAS"] as String
-                keyPassword = keystoreProperties["RELEASE_KEY_PASSWORD"] as String
-            }
-        }
-    }
-
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
@@ -51,7 +29,6 @@ android {
         release {
             isMinifyEnabled = false
             isDebuggable = false
-//            signingConfig = signingConfigs.getByName("release")
         }
     }
 
