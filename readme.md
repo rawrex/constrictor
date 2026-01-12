@@ -2,7 +2,7 @@
 
 # Mako
 
-[<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/app/com.rareventure.gps2)
+[<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/app/com.rama.mako)
 
 **Mako** is a **minimal, privacy-first Android launcher** designed for focus, speed, and
 simplicity.
