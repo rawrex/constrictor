@@ -32,17 +32,16 @@ class PrefsManager private constructor(context: Context) {
     fun setClock12() =
         prefs.edit().putBoolean("show_clock", true).putString("clock_format", "12").apply()
 
-    // Checkboxes
-    fun getBoolean(key: String, defaultValue: Boolean): Boolean =
-        prefs.getBoolean(key, defaultValue)
-
-    fun setBoolean(key: String, value: Boolean) = prefs.edit().putBoolean(key, value).apply()
-
-    // Group visibility
+    // Groups
     fun isGroupVisible(group: String): Boolean = prefs.getBoolean("group_visibility_$group", true)
     fun setGroupVisible(group: String, visible: Boolean) =
         prefs.edit().putBoolean("group_visibility_$group", visible).apply()
 
+    // General
+    fun getBoolean(key: String, defaultValue: Boolean): Boolean =
+        prefs.getBoolean(key, defaultValue)
+
+    fun setBoolean(key: String, value: Boolean) = prefs.edit().putBoolean(key, value).apply()
     fun getStringSet(key: String, default: Set<String>): MutableSet<String> {
         return prefs.getStringSet(key, default) ?: default.toMutableSet()
     }
