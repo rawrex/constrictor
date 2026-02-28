@@ -19,12 +19,20 @@ class WdCheckbox @JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.wd_checkbox, this, true)
         checkBox = findViewById(R.id.checkbox)
 
-        // Read attribute from theme or XML if set
-        attrs?.let {
-            val typedArray = context.obtainStyledAttributes(it, intArrayOf(R.attr.text))
-            val label = typedArray.getString(0)
-            setText(label ?: "")
-            typedArray.recycle()
+        attrs?.let { setAttrs(context, it) }
+    }
+
+    private fun setAttrs(context: Context, attrs: AttributeSet) {
+        for (i in 0 until attrs.attributeCount) {
+            val name = attrs.getAttributeName(i)
+            when (name) {
+                "text" -> {
+                    val resId = attrs.getAttributeResourceValue(i, 0)
+                    if (resId != 0) {
+                        checkBox.text = context.getString(resId)
+                    }
+                }
+            }
         }
     }
 

@@ -133,19 +133,19 @@
             android:id="@+id/show_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:text="@string/show_date" />
+            android:text="@string/show_date" />
 
         <com.rama.mako.widgets.WdCheckbox
             android:id="@+id/show_year_day"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:text="@string/show_year_day" />
+            android:text="@string/show_year_day" />
 
         <com.rama.mako.widgets.WdCheckbox
             android:id="@+id/show_battery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:text="@string/show_battery" />
+            android:text="@string/show_battery" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -160,7 +160,7 @@
             android:id="@+id/use_pixel_font"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:text="@string/pixel_font_label" />
+            android:text="@string/pixel_font_label" />
 
         <TextView
             android:layout_width="wrap_content"
