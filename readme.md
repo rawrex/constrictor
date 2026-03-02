@@ -13,9 +13,9 @@ distractions to a minimum by emphasizing clarity and intentional interaction.
 
 ## Screenshots
 
-| Home | Settings | About |
-| - | - | - |
-| ![Home](https://raw.githubusercontent.com/jmiguelrivas/mako/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/0.png) | ![Settings](https://raw.githubusercontent.com/jmiguelrivas/mako/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png) | ![About](https://raw.githubusercontent.com/jmiguelrivas/mako/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/6.png) |
+| Home                                                                                                                                         | Settings                                                                                                                                         | About                                                                                                                                         |
+|----------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| ![Home](https://raw.githubusercontent.com/jmiguelrivas/mako/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png) | ![Settings](https://raw.githubusercontent.com/jmiguelrivas/mako/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png) | ![About](https://raw.githubusercontent.com/jmiguelrivas/mako/refs/heads/master/fastlane/metadata/android/en-US/images/phoneScreenshots/5.png) |
 
 ---
 
@@ -32,22 +32,26 @@ No network access is required.
 
 ## Features
 
-- **App grouping & quick actions**: Long press any app to assign it to a group, rename it, or access additional actions. Grouped apps help you stay organized and find what you need faster.
+- **App grouping & quick actions**: Long press any app to assign it to a group, rename it, or access
+  additional actions. Grouped apps help you stay organized and find what you need faster.
 - **Battery monitoring**: Monitor battery status, temperature and performance.
-- **Day of the year**: Track the current day of the year at a glance for productivity or personal tracking.
+- **Day of the year**: Track the current day of the year at a glance for productivity or personal
+  tracking.
 
 ---
 
 ## Installation
 
-* Available on **[F-Droid](https://f-droid.org/app/com.rama.mako)** for easy installation and updates.
-* Download the latest APK from the **[Releases page](https://github.com/jmiguelrivas/mako/releases)** or use **[Obtanium](https://github.com/ImranR98/Obtainium)** to get the newest version directly from the github releases.
-
-
+* Available on **[F-Droid](https://f-droid.org/app/com.rama.mako)** for easy installation and
+  updates.
+* Download the latest APK from the **[Releases page](https://github.com/jmiguelrivas/mako/releases)
+  ** or use **[Obtanium](https://github.com/ImranR98/Obtainium)** to get the newest version directly
+  from the github releases.
 
 ## License
 
-**Mako** is Free Software. You are free to use, study, share, and improve it under the terms of the **GNU General Public License v3** or later.
+**Mako** is Free Software. You are free to use, study, share, and improve it under the terms of the
+**GNU General Public License v3** or later.
 
 ---
 
